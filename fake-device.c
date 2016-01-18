@@ -8,10 +8,10 @@ static struct platform_device *pdev;
 
 static int __init fake_device_init(void)
 {
-  printk(KERN_INFO "nameis %s", name);
   pdev = platform_device_register_simple(name, 0, NULL, 0);
   if (IS_ERR(pdev))
     return PTR_ERR(pdev);  
+  printk(KERN_INFO "%s: connected", name);
   
   return 0;
 }
@@ -19,6 +19,7 @@ static int __init fake_device_init(void)
 static void __exit fake_device_exit(void)
 {
   platform_device_unregister(pdev);
+  printk(KERN_INFO "%s: disconnected", name);
 }
 
 module_param(name, charp, 0644);
